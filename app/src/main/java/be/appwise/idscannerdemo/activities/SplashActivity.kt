@@ -5,7 +5,7 @@ import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import be.appwise.idscanner.services.TesseractOCRService
+import be.appwise.idscanner.services.IdScannerService
 import be.appwise.idscannerdemo.R
 
 class SplashActivity : AppCompatActivity() {
@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
 			}
 			
 			override fun doInBackground(vararg p0: Unit?) {
-				TesseractOCRService.init(applicationContext)
+				IdScannerService.init(applicationContext)
 				Log.d("blub", "doInBackground: " + applicationContext.filesDir.absolutePath)
 			}
 		}

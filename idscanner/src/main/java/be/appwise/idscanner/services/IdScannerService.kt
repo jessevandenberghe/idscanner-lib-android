@@ -11,7 +11,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 
-class TesseractOCRService {
+class IdScannerService {
 	companion object {
 		private var datapath = ""
 		private var mTess = TessBaseAPI()
@@ -53,6 +53,14 @@ class TesseractOCRService {
 			mTess.pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO_ONLY
 			mTess.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<")
 			init = true
+		}
+		
+		fun setWhiteList(whiteList: String){
+			mTess.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, whiteList)
+		}
+		
+		fun setBlackList(blackList: String){
+			mTess.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, blackList)
 		}
 		
 		fun getOCRResult(bitmap: Bitmap): String {

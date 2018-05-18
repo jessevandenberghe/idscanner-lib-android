@@ -12,7 +12,6 @@ class CharacterConverterHelper {
 		
 		private fun convertToCharacters(numbers: String) : String{
 			var characters = numbers.replace('0','O')
-			characters =  characters.replace('0','D')
 			characters =  characters.replace('1','I')
 			characters =  characters.replace('2','Z')
 			characters =  characters.replace('3','B')

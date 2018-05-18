@@ -11,13 +11,11 @@ import be.appwise.idscanner.helpers.convertYuvToBitmap
 import be.appwise.idscanner.listeners.OnScanResultListener
 import be.appwise.idscanner.models.IDScan
 import be.appwise.idscanner.models.ScanResult
-import be.appwise.idscanner.services.TesseractOCRService
+import be.appwise.idscanner.services.IdScannerService
 import com.otaliastudios.cameraview.CameraView
+import com.otaliastudios.cameraview.Frame
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
-import android.util.DisplayMetrics
-
 
 
 class IdScannerView(context: Context, attrs: AttributeSet?) : CameraView(context, attrs) {
@@ -25,23 +23,39 @@ class IdScannerView(context: Context, attrs: AttributeSet?) : CameraView(context
 	private var isProcessing = false
 	private var isScanning = false
 	private var isRendering = false
+	var vMargin = (this.height - 100)/2
+	var cutOutHeight = convertDpToPixel(100).toInt()
+	set(value) {
+		field = convertDpToPixel(value).toInt()
+		vMargin = (this.height - value)/2
+	}
 	
 	fun setOnResultListener(listener: OnScanResultListener){
 		super.addFrameProcessor{
 			if (!isProcessing && isScanning && !isRendering && it.data != null) {
-				val freezedFrame = it
-				val freezedFrameData = it.data
-				isRendering = true
-				
-				val renderedBitmap = convertYuvToBitmap(freezedFrameData, freezedFrame)
-				val heightToPixels = convertDpToPixel(100).toInt()
-				val vMargin = (renderedBitmap!!.height - heightToPixels)/2
-				val scaledBitmap = Bitmap.createBitmap(renderedBitmap, 100, vMargin, renderedBitmap.width - 200, heightToPixels)
-				val binarizedBitmap = TesseractOCRService.binarizeImage(scaledBitmap)
-				
-				processBitmap(binarizedBitmap, listener)
+				processFrame(it, listener)
+				this.stopScanning()
 			}
 		}
+	}
+	
+	fun setOnContiousResultListener(listener: OnScanResultListener){
+		super.addFrameProcessor{
+			if (!isProcessing && isScanning && !isRendering && it.data != null) {
+				processFrame(it, listener)
+			}
+		}
+	}
+	
+	private fun processFrame(it: Frame, listener: OnScanResultListener){
+		val freezedFrame = it
+		val freezedFrameData = it.data
+		isRendering = true
+		val renderedBitmap = convertYuvToBitmap(freezedFrameData, freezedFrame)
+		val scaledBitmap = Bitmap.createBitmap(renderedBitmap!!, 100, vMargin, renderedBitmap.width - 200, cutOutHeight)
+		val binarizedBitmap = IdScannerService.binarizeImage(scaledBitmap)
+		
+		processBitmap(binarizedBitmap, listener)
 	}
 	
 	private fun convertDpToPixel(dp: Int): Float {
@@ -83,7 +97,7 @@ class IdScannerView(context: Context, attrs: AttributeSet?) : CameraView(context
 			if (!isProcessing) {
 				isProcessing = true
 				Flowable.fromCallable({
-					CharacterConverterHelper.convertIdCode(TesseractOCRService.getOCRResult(bitmap))
+					CharacterConverterHelper.convertIdCode(IdScannerService.getOCRResult(bitmap))
 				})
 						.subscribeOn(Schedulers.io())
 						.observeOn(Schedulers.computation())
