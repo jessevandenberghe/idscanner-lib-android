@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import be.appwise.idscanner.listeners.OnScanResultListener
 import be.appwise.idscanner.models.ScanResult
+import be.appwise.idscanner.services.IdScannerService
 import be.appwise.idscannerdemo.R
 import kotlinx.android.synthetic.main.activity_main.*
 

@@ -140,13 +140,13 @@ id_scanner_camera.setOnResultListener(object : OnScanResultListener {
 
 ```
 
-#### setOnContiousResultListener
+#### setOnContinuousResultListener
 
 Bij deze listener zal de IdScannerView resultaten blijven doorgeven tot hij handmatig wordt stopgezet.
 
 ``` Java
 
-id_scanner_camera.setOnContiousResultListener(object : OnScanResultListener {
+id_scanner_camera.setOnContinuousResultListener(object : OnScanResultListener {
 	override fun onScanResult(scan: ScanResult, bitmap: Bitmap) {
 		;
 	}

@@ -17,7 +17,6 @@ import com.otaliastudios.cameraview.Frame
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 
-
 class IdScannerView(context: Context, attrs: AttributeSet?) : CameraView(context, attrs) {
 	
 	private var isProcessing = false
@@ -39,7 +38,7 @@ class IdScannerView(context: Context, attrs: AttributeSet?) : CameraView(context
 		}
 	}
 	
-	fun setOnContiousResultListener(listener: OnScanResultListener){
+	fun setOnContinuousResultListener(listener: OnScanResultListener){
 		super.addFrameProcessor{
 			if (!isProcessing && isScanning && !isRendering && it.data != null) {
 				processFrame(it, listener)

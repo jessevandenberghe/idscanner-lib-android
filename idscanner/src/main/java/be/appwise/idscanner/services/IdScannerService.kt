@@ -10,7 +10,10 @@ import com.googlecode.tesseract.android.TessBaseAPI
 import java.io.File
 import java.io.FileOutputStream
 
-
+/**
+ * This service uses Tesseract to process images.
+ * It needs to be initialised with IdScannerService.init(ApplicationContext) before use
+ */
 class IdScannerService {
 	companion object {
 		private var datapath = ""
@@ -42,6 +45,11 @@ class IdScannerService {
 			}
 		}
 		
+		
+		/**
+		 * Initialises Tesseract and links to its trained-data
+		 * @param context ApplicationContext
+		 */
 		fun init(context: Context){
 			val datapath = context.filesDir.absolutePath + "/tesseract/"
 			val assets = context.assets
@@ -55,14 +63,30 @@ class IdScannerService {
 			init = true
 		}
 		
+		/**
+		 * Sets whitelist. When this is set, Tesseract only searches for these characters.
+		 * At default, this is set to ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789< to match the ID-card whitelist
+		 * @param whiteList
+		 */
 		fun setWhiteList(whiteList: String){
 			mTess.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, whiteList)
 		}
 		
+		/**
+		 * Sets blacklist. When this is set, Tesseract ignores these characters when searching.
+		 * At default, this is not set
+		 * @param blackList
+		 */
 		fun setBlackList(blackList: String){
 			mTess.setVariable(TessBaseAPI.VAR_CHAR_BLACKLIST, blackList)
 		}
 		
+		/**
+		 * Uses Tesseract to search for text in an image bitmap
+		 * @param bitmap image
+		 * @return text found in bitmap
+		 * @throws OcrServiceNotInitialisedException when Tesseract is not yet initialised
+		 */
 		fun getOCRResult(bitmap: Bitmap): String {
 			if(init) {
 				mTess.setImage(bitmap)
@@ -72,6 +96,11 @@ class IdScannerService {
 			else throw OcrServiceNotInitialisedException()
 		}
 		
+		/**
+		 * Transform image to a binarized image so it is easier to be processed by Tesseract
+		 * @param bitmap image
+		 * @return binarized image
+		 */
 		fun binarizeImage(bitmap: Bitmap): Bitmap{
 			var pixImage = ReadFile.readBitmap(bitmap)
 			pixImage = Enhance.unsharpMasking(pixImage)
