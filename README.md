@@ -17,7 +17,7 @@ Als je de IdScannerService wilt gebruiken voor andere doeleinden, is het eventue
 
 #### Whitelist
 
-Het belangrijkste is de whitelist. Deze wordt standaard ingesteld op een Whitelist gefocust op identiteitskaarten. Deze whitelist zorgt ervoor dat Tesseract enkel gaat zoeken naar deze karaters in de afbeeling.
+Het belangrijkste is de whitelist. Deze wordt standaard ingesteld op een Whitelist gefocust op identiteitskaarten. Deze whitelist zorgt ervoor dat Tesseract enkel gaat zoeken naar deze karaters in de afbeelding.
 
 ``` Java
 
