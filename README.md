@@ -13,7 +13,7 @@ Om van de IdScannerService gebruik te kunnen maken, moet deze eerst geinitialise
 
 ### Optioneel
 
-Als je de IdScannerService wilt gebruiken voor andere doeleinden, is het eventueel nodig om aan de instellingen van Tesseract te sluitelen.
+Als je de IdScannerService wilt gebruiken voor andere doeleinden, is het eventueel nodig om aan de instellingen van Tesseract te sleutelen.
 
 #### Whitelist
 

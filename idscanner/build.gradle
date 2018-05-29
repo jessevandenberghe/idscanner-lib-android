@@ -2,7 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='org.bitbucket.appwise'
+group='com.github.jessevandenberghe'
+
 
 android {
     compileSdkVersion 27
